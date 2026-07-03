@@ -1,0 +1,51 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-text">StudioNest</div>
+      <div class="login-logo-sub">Admin Portal</div>
+    </div>
+
+    <h2 class="login-title">Welcome back</h2>
+    <p class="login-sub">Sign in to manage your website content.</p>
+
+    <% if (error) { %>
+      <div class="alert alert-error">⚠ <%= error %></div>
+    <% } %>
+
+    <form action="/admin/login" method="POST">
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input
+          type="text"
+          name="username"
+          class="form-control"
+          placeholder="Enter username"
+          required
+          autocomplete="username"
+        >
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input
+          type="password"
+          name="password"
+          class="form-control"
+          placeholder="Enter password"
+          required
+          autocomplete="current-password"
+        >
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:0.5rem;">
+        Sign In →
+      </button>
+    </form>
+
+    <div style="margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--admin-border);text-align:center;">
+      <a href="/" style="font-size:0.8rem;color:var(--admin-text-muted);">← Back to Website</a>
+    </div>
+
+    <div style="margin-top:1rem;padding:0.8rem;background:#F9FAFB;border-radius:4px;font-size:0.74rem;color:var(--admin-text-muted);text-align:center;">
+      Default: <strong>admin</strong> / <strong>StudioNest@2024</strong>
+    </div>
+  </div>
+</div>

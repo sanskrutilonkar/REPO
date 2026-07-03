@@ -1,0 +1,105 @@
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><span>Contact</span>
+  </div>
+  <div class="label" style="color:rgba(255,255,255,0.4);margin-bottom:0.6rem;">Get In Touch</div>
+  <h1 class="page-hero-title">Let's build something<br>together</h1>
+</section>
+
+<!-- CONTACT CONTENT -->
+<section class="section" style="background:#fff;">
+  <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:5rem;max-width:1100px;margin:0 auto;" class="contact-layout">
+
+    <!-- INFO -->
+    <div class="fade-up">
+      <div class="label-accent" style="margin-bottom:0.5rem;">Studio Contact</div>
+      <h2 style="font-family:var(--font-display);font-size:2.2rem;font-weight:300;margin-bottom:1.5rem;">We'd love to hear<br>about your project</h2>
+      <p style="font-size:0.9rem;color:var(--color-text-light);line-height:1.8;margin-bottom:2rem;">Whether you're an individual with a vision for your home, a developer with a complex mixed-use scheme, or an institution looking for a BIM partner — we're ready to listen.</p>
+
+      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+        <div style="display:flex;align-items:flex-start;gap:1rem;">
+          <div style="width:40px;height:40px;border:1px solid var(--color-border);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--color-accent);">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <div class="label" style="margin-bottom:0.2rem;">Studio Address</div>
+            <div style="font-size:0.9rem;line-height:1.6;">Studio 4B, Koregaon Park Annexe,<br>Pune, Maharashtra 411001, India</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:1rem;">
+          <div style="width:40px;height:40px;border:1px solid var(--color-border);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--color-accent);">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="label" style="margin-bottom:0.2rem;">Email</div>
+            <div style="font-size:0.9rem;">hello@studionest.com</div>
+            <div style="font-size:0.85rem;color:var(--color-text-muted);">bim@studionest.com (BIM enquiries)</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:1rem;">
+          <div style="width:40px;height:40px;border:1px solid var(--color-border);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--color-accent);">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.08 6.08l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+          </div>
+          <div>
+            <div class="label" style="margin-bottom:0.2rem;">Phone</div>
+            <div style="font-size:0.9rem;">+91 (020) 123-4567</div>
+            <div style="font-size:0.85rem;color:var(--color-text-muted);">Mon–Sat, 9am–6pm IST</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="fade-up">
+      <% if (locals.success) { %>
+        <div class="alert alert-success">✓ <%= success %></div>
+      <% } %>
+
+      <form action="/contact" method="POST" class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input type="text" name="name" class="form-control" placeholder="Your full name" required value="<%= locals.formData ? (formData.name || '') : '' %>">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address *</label>
+            <input type="email" name="email" class="form-control" placeholder="you@email.com" required value="<%= locals.formData ? (formData.email || '') : '' %>">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" name="phone" class="form-control" placeholder="+91 00000 00000" value="<%= locals.formData ? (formData.phone || '') : '' %>">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Project Type</label>
+            <select name="projectType" class="form-control">
+              <option value="">Select type...</option>
+              <option value="Residential">Residential</option>
+              <option value="Commercial">Commercial</option>
+              <option value="BIM Services">BIM Services</option>
+              <option value="Sustainability Consulting">Sustainability Consulting</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject *</label>
+          <input type="text" name="subject" class="form-control" placeholder="Brief subject line" required value="<%= locals.formData ? (formData.subject || '') : '' %>">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message *</label>
+          <textarea name="message" class="form-control" placeholder="Tell us about your project, timeline, budget, and any specific requirements..." rows="6" required><%= locals.formData ? (formData.message || '') : '' %></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Send Message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+@media (max-width:768px) {
+  .contact-layout { grid-template-columns: 1fr !important; gap: 3rem !important; }
+}
+</style>

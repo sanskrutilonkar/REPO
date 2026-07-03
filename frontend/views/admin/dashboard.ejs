@@ -1,0 +1,144 @@
+<!-- STATS GRID -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-card-icon orange">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </div>
+    <div>
+      <div class="stat-card-value"><%= stats.projectCount %></div>
+      <div class="stat-card-label">Total Projects</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-icon green">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+    </div>
+    <div>
+      <div class="stat-card-value"><%= stats.blogCount %></div>
+      <div class="stat-card-label">Blog Posts</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-icon blue">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+    </div>
+    <div>
+      <div class="stat-card-value"><%= stats.publishedBlogs %></div>
+      <div class="stat-card-label">Published Posts</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-icon purple">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/></svg>
+    </div>
+    <div>
+      <div class="stat-card-value"><%= stats.featuredProjects %></div>
+      <div class="stat-card-label">Featured Projects</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK LINKS -->
+<div class="quick-links">
+  <a href="/admin/projects/new" class="quick-link-card">
+    <div class="quick-link-icon">🏗</div>
+    <div class="quick-link-label">New Project</div>
+  </a>
+  <a href="/admin/blogs/new" class="quick-link-card">
+    <div class="quick-link-icon">✍️</div>
+    <div class="quick-link-label">New Blog Post</div>
+  </a>
+  <a href="/projects" target="_blank" class="quick-link-card">
+    <div class="quick-link-icon">👁</div>
+    <div class="quick-link-label">View Projects</div>
+  </a>
+  <a href="/blog" target="_blank" class="quick-link-card">
+    <div class="quick-link-icon">📖</div>
+    <div class="quick-link-label">View Blog</div>
+  </a>
+</div>
+
+<!-- RECENT CONTENT -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+
+  <!-- Recent Projects -->
+  <div class="admin-card">
+    <div class="admin-card-header">
+      <span class="admin-card-title">Recent Projects</span>
+      <a href="/admin/projects" class="btn btn-sm btn-secondary">View All</a>
+    </div>
+    <div class="admin-table-wrapper" style="border:none;">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Year</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (recentProjects.length > 0) { %>
+            <% recentProjects.forEach(p => { %>
+            <tr>
+              <td class="table-title"><%= p.title %></td>
+              <td><span class="badge badge-orange"><%= p.category %></span></td>
+              <td><%= p.year %></td>
+              <td>
+                <a href="/admin/projects/<%= p._id %>/edit" class="btn btn-sm btn-secondary">Edit</a>
+              </td>
+            </tr>
+            <% }) %>
+          <% } else { %>
+            <tr><td colspan="4" style="text-align:center;color:var(--admin-text-muted);padding:2rem;">No projects yet</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Recent Blogs -->
+  <div class="admin-card">
+    <div class="admin-card-header">
+      <span class="admin-card-title">Recent Blog Posts</span>
+      <a href="/admin/blogs" class="btn btn-sm btn-secondary">View All</a>
+    </div>
+    <div class="admin-table-wrapper" style="border:none;">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (recentBlogs.length > 0) { %>
+            <% recentBlogs.forEach(b => { %>
+            <tr>
+              <td class="table-title"><%= b.title %></td>
+              <td>
+                <% if (b.published) { %>
+                  <span class="badge badge-green">Published</span>
+                <% } else { %>
+                  <span class="badge badge-gray">Draft</span>
+                <% } %>
+              </td>
+              <td>
+                <a href="/admin/blogs/<%= b._id %>/edit" class="btn btn-sm btn-secondary">Edit</a>
+              </td>
+            </tr>
+            <% }) %>
+          <% } else { %>
+            <tr><td colspan="3" style="text-align:center;color:var(--admin-text-muted);padding:2rem;">No blog posts yet</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<style>
+@media(max-width:900px){ div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important;} }
+</style>

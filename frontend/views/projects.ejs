@@ -1,0 +1,56 @@
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Projects</span>
+  </div>
+  <div class="label" style="color:rgba(255,255,255,0.4);margin-bottom:0.6rem;">Portfolio</div>
+  <h1 class="page-hero-title">Our Work</h1>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <% categories.forEach(cat => { %>
+    <button
+      class="filter-btn <%= selectedCategory === cat ? 'active' : '' %>"
+      data-category="<%= cat %>"
+    ><%= cat %></button>
+  <% }) %>
+</div>
+
+<!-- PROJECTS GRID -->
+<% if (projects && projects.length > 0) { %>
+<div class="projects-grid">
+  <% projects.forEach(project => { %>
+  <a href="/projects/<%= project._id %>" class="project-card fade-up">
+    <img
+      src="<%= project.imageUrl %>"
+      alt="<%= project.title %>"
+      class="project-card-image"
+      loading="lazy"
+      onerror="this.src='https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80'"
+    >
+    <div class="project-card-body">
+      <div class="project-card-meta">
+        <span class="project-card-category"><%= project.category %></span>
+        <span class="project-card-year"><%= project.year %></span>
+      </div>
+      <h3 class="project-card-title"><%= project.title %></h3>
+      <p class="project-card-desc"><%= project.description %></p>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.8rem;">
+        <% if (project.bimEnabled) { %><div class="bim-tag">⬡ BIM</div><% } %>
+        <% if (project.status !== 'Completed') { %>
+          <span class="badge badge-orange"><%= project.status %></span>
+        <% } %>
+      </div>
+    </div>
+  </a>
+  <% }) %>
+</div>
+<% } else { %>
+<div style="padding:6rem 8%;text-align:center;color:var(--color-text-muted);">
+  <p style="font-size:1.1rem;margin-bottom:0.5rem;">No projects found in this category.</p>
+  <a href="/projects" style="color:var(--color-accent);font-size:0.9rem;">View all projects →</a>
+</div>
+<% } %>

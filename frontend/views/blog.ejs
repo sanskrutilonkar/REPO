@@ -1,0 +1,109 @@
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Blog</span>
+  </div>
+  <div class="label" style="color:rgba(255,255,255,0.4);margin-bottom:0.6rem;">Insights & Ideas</div>
+  <h1 class="page-hero-title">From the Studio</h1>
+</section>
+
+<!-- FEATURED POST -->
+<% if (featured) { %>
+<section class="section" style="padding-bottom:0;">
+  <a href="/blog/<%= featured.slug %>" style="display:grid;grid-template-columns:1fr 1fr;gap:0;background:#fff;overflow:hidden;border:1px solid var(--color-border);text-decoration:none;" class="fade-up featured-blog-card">
+    <div style="overflow:hidden;">
+      <img
+        src="<%= featured.imageUrl %>"
+        alt="<%= featured.title %>"
+        style="width:100%;height:100%;min-height:360px;object-fit:cover;transition:transform 0.6s ease;"
+        class="featured-img"
+        onerror="this.src='https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80'"
+      >
+    </div>
+    <div style="padding:3rem;display:flex;flex-direction:column;justify-content:center;">
+      <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem;">
+        <span class="badge badge-accent">Featured</span>
+        <span class="label-accent"><%= featured.category %></span>
+      </div>
+      <h2 style="font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:400;line-height:1.2;margin-bottom:0.8rem;"><%= featured.title %></h2>
+      <p style="font-size:0.9rem;color:var(--color-text-light);line-height:1.7;margin-bottom:1.5rem;"><%= featured.excerpt %></p>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.78rem;color:var(--color-text-muted);padding-top:1rem;border-top:1px solid var(--color-border);">
+        <span><%= featured.author %></span>
+        <span><%= featured.readTime %> min read · <%= new Date(featured.createdAt).toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'}) %></span>
+      </div>
+    </div>
+  </a>
+</section>
+<% } %>
+
+<!-- FILTER -->
+<div class="filter-bar" style="position:static;top:auto;">
+  <% categories.forEach(cat => { %>
+    <button class="filter-btn <%= selectedCategory === cat ? 'active' : '' %>" data-category="<%= cat %>"><%= cat %></button>
+  <% }) %>
+</div>
+
+<!-- BLOG GRID -->
+<section class="section" style="background:#fff;padding-top:3rem;">
+  <% if (blogs && blogs.length > 0) { %>
+  <div class="blog-grid">
+    <% blogs.forEach(blog => { %>
+    <a href="/blog/<%= blog.slug %>" class="blog-card fade-up">
+      <div class="blog-card-image-wrapper">
+        <img
+          src="<%= blog.imageUrl %>"
+          alt="<%= blog.title %>"
+          class="blog-card-image"
+          loading="lazy"
+          onerror="this.src='https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80'"
+        >
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-card-category"><%= blog.category %></div>
+        <h3 class="blog-card-title"><%= blog.title %></h3>
+        <p class="blog-card-excerpt"><%= blog.excerpt %></p>
+        <div class="blog-card-footer">
+          <span><%= blog.author %></span>
+          <span><%= blog.readTime %> min · <%= blog.views %> views</span>
+        </div>
+      </div>
+    </a>
+    <% }) %>
+  </div>
+
+  <!-- PAGINATION -->
+  <% if (totalPages > 1) { %>
+  <div class="pagination">
+    <% if (currentPage > 1) { %>
+      <a href="/blog?page=<%= currentPage - 1 %><%= selectedCategory !== 'All' ? '&category=' + selectedCategory : '' %>">‹</a>
+    <% } %>
+    <% for (let i = 1; i <= totalPages; i++) { %>
+      <% if (i === currentPage) { %>
+        <span class="active"><%= i %></span>
+      <% } else { %>
+        <a href="/blog?page=<%= i %><%= selectedCategory !== 'All' ? '&category=' + selectedCategory : '' %>"><%= i %></a>
+      <% } %>
+    <% } %>
+    <% if (currentPage < totalPages) { %>
+      <a href="/blog?page=<%= currentPage + 1 %><%= selectedCategory !== 'All' ? '&category=' + selectedCategory : '' %>">›</a>
+    <% } %>
+  </div>
+  <% } %>
+
+  <% } else { %>
+  <div style="text-align:center;padding:4rem;color:var(--color-text-muted);">
+    <p>No blog posts found in this category.</p>
+    <a href="/blog" style="color:var(--color-accent);font-size:0.9rem;margin-top:0.5rem;display:inline-block;">View all posts →</a>
+  </div>
+  <% } %>
+</section>
+
+<style>
+.featured-blog-card:hover .featured-img { transform: scale(1.04); }
+@media (max-width:768px) {
+  .featured-blog-card { grid-template-columns: 1fr !important; }
+  .featured-blog-card > div:first-child img { min-height: 220px !important; }
+}
+</style>

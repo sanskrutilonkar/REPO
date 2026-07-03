@@ -1,0 +1,114 @@
+<!-- PAGE HERO -->
+<section class="page-hero" style="position:relative;overflow:hidden;min-height:45vh;display:flex;align-items:flex-end;">
+  <div style="position:absolute;inset:0;">
+    <img
+      src="<%= blog.imageUrl %>"
+      alt="<%= blog.title %>"
+      style="width:100%;height:100%;object-fit:cover;opacity:0.35;"
+      onerror="this.src='https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1600&q=80'"
+    >
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(26,26,24,0.92) 40%,rgba(26,26,24,0.4));"></div>
+  </div>
+  <div style="position:relative;z-index:1;padding:calc(var(--nav-height) + 3rem) 8% 3rem;max-width:900px;">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span>/</span>
+      <a href="/blog">Blog</a><span>/</span>
+      <span><%= blog.category %></span>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+      <span class="label-accent"><%= blog.category %></span>
+      <span style="color:rgba(255,255,255,0.3);">·</span>
+      <span style="color:rgba(255,255,255,0.5);font-size:0.78rem;"><%= blog.readTime %> min read</span>
+    </div>
+    <h1 style="font-family:var(--font-display);font-size:clamp(2rem,5vw,3.5rem);font-weight:300;line-height:1.1;color:#fff;letter-spacing:-0.02em;"><%= blog.title %></h1>
+    <div style="margin-top:1.2rem;display:flex;align-items:center;gap:1.5rem;color:rgba(255,255,255,0.5);font-size:0.8rem;">
+      <span>By <%= blog.author %></span>
+      <span><%= new Date(blog.createdAt).toLocaleDateString('en-IN',{year:'numeric',month:'long',day:'numeric'}) %></span>
+      <span><%= blog.views %> views</span>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG CONTENT -->
+<section class="content-section">
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:4rem;max-width:1100px;margin:0 auto;" class="blog-detail-grid">
+
+    <!-- ARTICLE -->
+    <article>
+      <p style="font-size:1.1rem;color:var(--color-text-light);line-height:1.8;margin-bottom:2rem;font-style:italic;padding-left:1.2rem;border-left:3px solid var(--color-accent);"><%= blog.excerpt %></p>
+
+      <div class="article-content">
+        <%- blog.content %>
+      </div>
+
+      <% if (blog.tags && blog.tags.length > 0) { %>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border);">
+        <div class="label" style="margin-bottom:0.7rem;">Tags</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+          <% blog.tags.forEach(tag => { %>
+            <span class="badge badge-accent" style="font-size:0.75rem;"><%= tag %></span>
+          <% }) %>
+        </div>
+      </div>
+      <% } %>
+
+      <!-- SHARE -->
+      <div style="margin-top:2rem;padding:1.5rem;background:#fff;border:1px solid var(--color-border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <div class="label" style="margin-bottom:0.2rem;">Share This Article</div>
+          <p style="font-size:0.82rem;color:var(--color-text-muted);">Found this helpful? Share it with your network.</p>
+        </div>
+        <div style="display:flex;gap:0.5rem;">
+          <a href="https://linkedin.com/shareArticle?url=<%= encodeURIComponent('https://studionest.com/blog/' + blog.slug) %>&title=<%= encodeURIComponent(blog.title) %>" target="_blank" class="btn btn-sm btn-light">LinkedIn</a>
+          <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent('https://studionest.com/blog/' + blog.slug) %>&text=<%= encodeURIComponent(blog.title) %>" target="_blank" class="btn btn-sm btn-light">X (Twitter)</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside>
+      <div style="position:sticky;top:calc(var(--nav-height) + 2rem);">
+        <div style="background:#fff;border:1px solid var(--color-border);padding:1.5rem;margin-bottom:1.2rem;">
+          <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:400;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid var(--color-border);">About the Author</h3>
+          <div style="width:50px;height:50px;border-radius:50%;background:var(--color-accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;font-weight:600;margin-bottom:0.8rem;"><%= blog.author.charAt(0) %></div>
+          <div style="font-weight:500;font-size:0.9rem;margin-bottom:0.3rem;"><%= blog.author %></div>
+          <div style="font-size:0.8rem;color:var(--color-text-muted);">StudioNest Architects</div>
+        </div>
+
+        <div style="background:#fff;border:1px solid var(--color-border);padding:1.5rem;">
+          <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:400;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid var(--color-border);">Discuss a Project</h3>
+          <p style="font-size:0.83rem;color:var(--color-text-light);margin-bottom:1rem;">Interested in working with StudioNest? We'd love to hear about your vision.</p>
+          <a href="/contact" class="btn btn-dark btn-sm" style="width:100%;justify-content:center;">Get In Touch →</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- RELATED POSTS -->
+<% if (related && related.length > 0) { %>
+<section class="related-section">
+  <div class="label-accent" style="margin-bottom:0.5rem;">Continue Reading</div>
+  <h2 style="font-family:var(--font-display);font-size:2rem;font-weight:300;margin-bottom:2rem;">Related Articles</h2>
+  <div class="related-grid">
+    <% related.forEach(post => { %>
+    <a href="/blog/<%= post.slug %>" class="blog-card">
+      <div class="blog-card-image-wrapper">
+        <img src="<%= post.imageUrl %>" alt="<%= post.title %>" class="blog-card-image" loading="lazy">
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-card-category"><%= post.category %></div>
+        <h3 class="blog-card-title"><%= post.title %></h3>
+        <p class="blog-card-excerpt"><%= post.excerpt %></p>
+      </div>
+    </a>
+    <% }) %>
+  </div>
+</section>
+<% } %>
+
+<style>
+@media (max-width:768px) {
+  .blog-detail-grid { grid-template-columns: 1fr !important; }
+}
+</style>

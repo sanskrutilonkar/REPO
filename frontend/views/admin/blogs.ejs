@@ -1,0 +1,77 @@
+<% if (locals.success) { %>
+  <div class="alert alert-success">✓ <%= success %></div>
+<% } %>
+<% if (locals.error) { %>
+  <div class="alert alert-error">⚠ <%= error %></div>
+<% } %>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+  <div style="font-size:0.8rem;color:var(--admin-text-muted);">Total: <%= blogs.length %> posts</div>
+  <a href="/admin/blogs/new" class="btn btn-primary">+ New Blog Post</a>
+</div>
+
+<div class="admin-table-wrapper">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Author</th>
+        <th>Status</th>
+        <th>Featured</th>
+        <th>Views</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (blogs.length > 0) { %>
+        <% blogs.forEach(blog => { %>
+        <tr>
+          <td>
+            <div style="display:flex;align-items:center;gap:0.8rem;">
+              <img src="<%= blog.imageUrl %>" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:2px;flex-shrink:0;" onerror="this.style.display='none'">
+              <span class="table-title"><%= blog.title %></span>
+            </div>
+          </td>
+          <td><span class="badge badge-blue"><%= blog.category %></span></td>
+          <td style="font-size:0.82rem;"><%= blog.author %></td>
+          <td>
+            <% if (blog.published) { %>
+              <span class="badge badge-green pub-badge">Published</span>
+            <% } else { %>
+              <span class="badge badge-gray pub-badge">Draft</span>
+            <% } %>
+          </td>
+          <td><%= blog.featured ? '★' : '—' %></td>
+          <td style="font-size:0.82rem;"><%= blog.views %></td>
+          <td style="font-size:0.78rem;color:var(--admin-text-muted);"><%= new Date(blog.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %></td>
+          <td>
+            <div class="table-actions">
+              <% if (blog.published) { %>
+                <a href="/blog/<%= blog.slug %>" target="_blank" class="btn btn-sm btn-outline" title="View">👁</a>
+              <% } %>
+              <button class="btn btn-sm btn-secondary toggle-publish" data-id="<%= blog._id %>">
+                <%= blog.published ? 'Unpublish' : 'Publish' %>
+              </button>
+              <a href="/admin/blogs/<%= blog._id %>/edit" class="btn btn-sm btn-secondary">Edit</a>
+              <form action="/admin/blogs/<%= blog._id %>?_method=DELETE" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-danger" data-confirm="Delete '<%= blog.title %>'? This cannot be undone.">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="8">
+            <div class="empty-state">
+              <p>No blog posts yet.</p>
+              <a href="/admin/blogs/new" class="btn btn-primary" style="margin-top:1rem;">Write First Post</a>
+            </div>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,104 @@
+<div class="admin-form-page">
+  <% if (locals.error) { %>
+    <div class="alert alert-error">⚠ <%= error %></div>
+  <% } %>
+
+  <div style="margin-bottom:1.2rem;">
+    <a href="/admin/blogs" class="btn btn-secondary btn-sm">← Back to Blog Posts</a>
+  </div>
+
+  <form action="<%= action %>" method="POST">
+
+    <!-- CONTENT -->
+    <div class="form-section">
+      <div class="form-section-title">Post Content</div>
+      <div class="form-group">
+        <label class="form-label">Post Title *</label>
+        <input type="text" name="title" class="form-control" required
+          value="<%= blog ? blog.title : '' %>"
+          placeholder="e.g. The Future of BIM in Indian Architecture"
+          data-maxlength="150">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Excerpt * <span style="color:var(--admin-text-muted);font-weight:400;">(shown on blog cards)</span></label>
+        <textarea name="excerpt" class="form-control" required rows="3"
+          placeholder="A compelling summary of the post..."
+          data-maxlength="300"><%= blog ? blog.excerpt : '' %></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Full Content * <span style="color:var(--admin-text-muted);font-weight:400;">(supports HTML)</span></label>
+        <textarea name="content" class="form-control" required rows="16"
+          placeholder="<p>Your full article content here...</p><h2>Section Title</h2><p>More content...</p>"><%= blog ? blog.content : '' %></textarea>
+        <div class="form-hint">Supports HTML: &lt;p&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;blockquote&gt;</div>
+      </div>
+    </div>
+
+    <!-- META -->
+    <div class="form-section">
+      <div class="form-section-title">Post Details</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Author</label>
+          <input type="text" name="author" class="form-control"
+            value="<%= blog ? blog.author : 'StudioNest Team' %>"
+            placeholder="Author name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select name="category" class="form-control">
+            <% ['Architecture','BIM','Design','Sustainability','Technology','Urbanism','Interior','News'].forEach(cat => { %>
+              <option value="<%= cat %>" <%= blog && blog.category === cat ? 'selected' : '' %>><%= cat %></option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tags <span style="color:var(--admin-text-muted);font-weight:400;">(comma separated)</span></label>
+        <input type="text" name="tags" class="form-control"
+          value="<%= blog && blog.tags ? blog.tags.join(', ') : '' %>"
+          placeholder="BIM, Architecture, Sustainability">
+      </div>
+    </div>
+
+    <!-- MEDIA -->
+    <div class="form-section">
+      <div class="form-section-title">Cover Image</div>
+      <div class="form-group">
+        <label class="form-label">Image URL</label>
+        <input type="url" name="imageUrl" id="imageUrl" class="form-control"
+          value="<%= blog ? (blog.imageUrl || '') : '' %>"
+          placeholder="https://images.unsplash.com/...">
+        <div class="form-hint">Paste any image URL. Recommended: landscape 16:9 aspect ratio.</div>
+      </div>
+      <img id="image-preview" src="" alt="Preview" style="display:none;max-width:400px;max-height:225px;object-fit:cover;margin-top:0.5rem;border-radius:4px;border:1px solid var(--admin-border);">
+    </div>
+
+    <!-- PUBLISH OPTIONS -->
+    <div class="form-section">
+      <div class="form-section-title">Publishing</div>
+      <div style="display:flex;gap:2rem;flex-wrap:wrap;">
+        <label class="form-check">
+          <input type="checkbox" name="published" <%= blog && blog.published ? 'checked' : '' %>>
+          <label>Publish immediately</label>
+        </label>
+        <label class="form-check">
+          <input type="checkbox" name="featured" <%= blog && blog.featured ? 'checked' : '' %>>
+          <label>★ Feature this post</label>
+        </label>
+      </div>
+      <div class="form-hint" style="margin-top:0.5rem;">Unchecked = saved as Draft. Only published posts appear on the website.</div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div style="display:flex;gap:0.8rem;align-items:center;">
+      <button type="submit" class="btn btn-primary">
+        <%= blog ? 'Update Post' : 'Create Post' %> →
+      </button>
+      <a href="/admin/blogs" class="btn btn-secondary">Cancel</a>
+      <% if (blog && blog.published) { %>
+        <a href="/blog/<%= blog.slug %>" target="_blank" class="btn btn-outline" style="margin-left:auto;">View Live ↗</a>
+      <% } %>
+    </div>
+
+  </form>
+</div>

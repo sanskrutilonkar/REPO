@@ -1,0 +1,133 @@
+<div class="admin-form-page">
+  <% if (locals.error) { %>
+    <div class="alert alert-error">⚠ <%= error %></div>
+  <% } %>
+
+  <div style="margin-bottom:1.2rem;">
+    <a href="/admin/projects" class="btn btn-secondary btn-sm">← Back to Projects</a>
+  </div>
+
+  <form action="<%= action %>" method="POST">
+
+    <!-- BASIC INFO -->
+    <div class="form-section">
+      <div class="form-section-title">Basic Information</div>
+      <div class="form-group">
+        <label class="form-label">Project Title *</label>
+        <input type="text" name="title" class="form-control" required
+          value="<%= project ? project.title : '' %>"
+          placeholder="e.g. Luminary Tower"
+          data-maxlength="100">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <select name="category" class="form-control" required>
+            <% ['Residential','Commercial','Cultural','Multi-Family','Sustainable','BIM','Urban Planning','Interior'].forEach(cat => { %>
+              <option value="<%= cat %>" <%= project && project.category === cat ? 'selected' : '' %>><%= cat %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Year *</label>
+          <input type="number" name="year" class="form-control" required
+            min="1990" max="<%= new Date().getFullYear() + 5 %>"
+            value="<%= project ? project.year : new Date().getFullYear() %>">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Short Description * <span style="color:var(--admin-text-muted);font-weight:400;">(shown on project cards)</span></label>
+        <textarea name="description" class="form-control" required rows="3"
+          placeholder="A brief compelling description of the project..."
+          data-maxlength="500"><%= project ? project.description : '' %></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Full Description <span style="color:var(--admin-text-muted);font-weight:400;">(supports HTML)</span></label>
+        <textarea name="fullDescription" class="form-control" rows="8"
+          placeholder="<p>Full project narrative with HTML support...</p>"><%= project ? (project.fullDescription || '') : '' %></textarea>
+        <div class="form-hint">You can use HTML tags: &lt;h2&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;ul&gt;, &lt;li&gt;</div>
+      </div>
+    </div>
+
+    <!-- MEDIA -->
+    <div class="form-section">
+      <div class="form-section-title">Media</div>
+      <div class="form-group">
+        <label class="form-label">Image URL</label>
+        <input type="url" name="imageUrl" id="imageUrl" class="form-control"
+          value="<%= project ? (project.imageUrl || '') : '' %>"
+          placeholder="https://images.unsplash.com/...">
+        <div class="form-hint">Paste any image URL (Unsplash, your CDN, etc.)</div>
+      </div>
+      <img id="image-preview" src="" alt="Preview" style="display:none;max-width:300px;max-height:200px;object-fit:cover;margin-top:0.5rem;border-radius:4px;border:1px solid var(--admin-border);">
+    </div>
+
+    <!-- PROJECT DETAILS -->
+    <div class="form-section">
+      <div class="form-section-title">Project Details</div>
+      <div class="form-row-3">
+        <div class="form-group">
+          <label class="form-label">Location</label>
+          <input type="text" name="location" class="form-control"
+            value="<%= project ? (project.location || '') : '' %>"
+            placeholder="e.g. Pune, Maharashtra">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Area / Size</label>
+          <input type="text" name="area" class="form-control"
+            value="<%= project ? (project.area || '') : '' %>"
+            placeholder="e.g. 12,000 sqm">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Client</label>
+          <input type="text" name="client" class="form-control"
+            value="<%= project ? (project.client || '') : '' %>"
+            placeholder="Client name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select name="status" class="form-control">
+            <% ['Completed','In Progress','Upcoming'].forEach(s => { %>
+              <option value="<%= s %>" <%= project && project.status === s ? 'selected' : '' %>><%= s %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tags <span style="color:var(--admin-text-muted);font-weight:400;">(comma separated)</span></label>
+          <input type="text" name="tags" class="form-control"
+            value="<%= project && project.tags ? project.tags.join(', ') : '' %>"
+            placeholder="BIM, Sustainable, High-Rise">
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTIONS -->
+    <div class="form-section">
+      <div class="form-section-title">Display Options</div>
+      <div style="display:flex;gap:2rem;flex-wrap:wrap;">
+        <label class="form-check">
+          <input type="checkbox" name="featured" <%= project && project.featured ? 'checked' : '' %>>
+          <label>★ Feature on Homepage</label>
+        </label>
+        <label class="form-check">
+          <input type="checkbox" name="bimEnabled" <%= project && project.bimEnabled ? 'checked' : '' %>>
+          <label>⬡ BIM Coordinated Project</label>
+        </label>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div style="display:flex;gap:0.8rem;align-items:center;">
+      <button type="submit" class="btn btn-primary">
+        <%= project ? 'Update Project' : 'Create Project' %> →
+      </button>
+      <a href="/admin/projects" class="btn btn-secondary">Cancel</a>
+      <% if (project) { %>
+        <a href="/projects/<%= project._id %>" target="_blank" class="btn btn-outline" style="margin-left:auto;">View Live ↗</a>
+      <% } %>
+    </div>
+
+  </form>
+</div>

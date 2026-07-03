@@ -1,0 +1,74 @@
+<% if (locals.success) { %>
+  <div class="alert alert-success">✓ <%= success %></div>
+<% } %>
+<% if (locals.error) { %>
+  <div class="alert alert-error">⚠ <%= error %></div>
+<% } %>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+  <div>
+    <div style="font-size:0.8rem;color:var(--admin-text-muted);">Total: <%= projects.length %> projects</div>
+  </div>
+  <a href="/admin/projects/new" class="btn btn-primary">+ Add New Project</a>
+</div>
+
+<div class="admin-table-wrapper">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Year</th>
+        <th>Status</th>
+        <th>BIM</th>
+        <th>Featured</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (projects.length > 0) { %>
+        <% projects.forEach(project => { %>
+        <tr>
+          <td>
+            <div style="display:flex;align-items:center;gap:0.8rem;">
+              <img src="<%= project.imageUrl %>" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:2px;flex-shrink:0;" onerror="this.style.display='none'">
+              <span class="table-title"><%= project.title %></span>
+            </div>
+          </td>
+          <td><span class="badge badge-orange"><%= project.category %></span></td>
+          <td><%= project.year %></td>
+          <td>
+            <% if (project.status === 'Completed') { %>
+              <span class="badge badge-green"><%= project.status %></span>
+            <% } else if (project.status === 'In Progress') { %>
+              <span class="badge badge-blue"><%= project.status %></span>
+            <% } else { %>
+              <span class="badge badge-gray"><%= project.status %></span>
+            <% } %>
+          </td>
+          <td><%= project.bimEnabled ? '⬡ Yes' : '—' %></td>
+          <td><%= project.featured ? '★ Yes' : '—' %></td>
+          <td>
+            <div class="table-actions">
+              <a href="/projects/<%= project._id %>" target="_blank" class="btn btn-sm btn-outline" title="View">👁</a>
+              <a href="/admin/projects/<%= project._id %>/edit" class="btn btn-sm btn-secondary">Edit</a>
+              <form action="/admin/projects/<%= project._id %>?_method=DELETE" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-danger" data-confirm="Delete '<%= project.title %>'? This cannot be undone.">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="7">
+            <div class="empty-state">
+              <p>No projects yet.</p>
+              <a href="/admin/projects/new" class="btn btn-primary" style="margin-top:1rem;">Add First Project</a>
+            </div>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
