@@ -1,7 +1,10 @@
 /* ═══════════════════════════════════════════════════
    STUDIONEST ARCHITECTS — Admin Panel Styles
    ═══════════════════════════════════════════════════ */
-/*Sanskruti */
+
+/*Sanskruti*/
+
+
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
 
 :root {
@@ -69,7 +72,7 @@ ul { list-style: none; }
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
+  color :rgba(255,255,255,0.25);
   padding: 1rem 1.4rem 0.4rem;
 }
 
